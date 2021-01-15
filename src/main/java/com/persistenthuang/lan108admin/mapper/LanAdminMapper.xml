@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.persistenthuang.lan108admin.mapper.LanAdminMapper">
+    <resultMap id="adminMap" type="com.persistenthuang.lan108admin.pojo.LanAdmin">
+        <!-- id为主键的映射 -->
+        <id property="id" column="id"/>
+        <!-- result为主键之外的字段映射 -->
+        <result property="userId" column="user_id"/>
+        <result property="roleId" column="role_id"/>
+        <result property="adminCreatData" column="admin_creat_data"/>
+        <result property="adminIsDelete" column="admin_is_delete"/>
+    </resultMap>
+    <select id="selectList"
+            parameterType="com.persistenthuang.lan108admin.pojo.LanAdmin"
+            resultMap="adminMap">
+        select * from lan_admin
+        where admin_is_delete=#{adminIsDelete}
+        <if test="id != null">
+            AND id = #{id}
+        </if>
+        <if test="userId != null">
+            AND user_id = #{userId}
+        </if>
+        <if test="roleId != null">
+            AND role_id = #{roleId}
+        </if>
+    </select>
+    <select id="selectOne"
+            parameterType="com.persistenthuang.lan108admin.pojo.LanAdmin"
+            resultMap="adminMap">
+        select * from lan_admin
+        where admin_is_delete=#{adminIsDelete}
+        <if test="id != null">
+            AND id = #{id}
+        </if>
+        <if test="userId != null">
+            AND user_id = #{userId}
+        </if>
+        <if test="roleId != null">
+            AND role_id = #{roleId}
+        </if>
+    </select>
+    <!--增加-->
+    <insert id="insert"
+            parameterType="com.persistenthuang.lan108admin.pojo.LanAdmin"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        insert into lan_admin(user_id, role_id, admin_creat_data, admin_is_delete)
+        values (#{user_id}, #{role_id}, current_date, 0)
+    </insert>
+    <!--修改-->
+    <update id="update"
+            parameterType="com.persistenthuang.lan108admin.pojo.LanAdmin">
+        update lan_admin
+        <set>
+            <if test="userId!=null">user_id=#{userId},</if>
+            <if test="roleId!=null">role_id=#{roleId},</if>
+            <if test="adminCreatData!=null">admin_creat_data=current_date ,</if>
+            <if test="adminIsDelete!=null">admin_is_delete=#{adminIsDelete},</if>
+        </set>
+        where id=#{id}
+    </update>
+    <!--删除-->
+    <delete id="delete"
+            parameterType="com.persistenthuang.lan108admin.pojo.LanAdmin">
+        delete
+        from lan_admin
+        where id = #{id}
+    </delete>
+</mapper>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.persistenthuang.lan108admin.mapper.UserMapper">
+    <resultMap id="userMap" type="com.persistenthuang.lan108admin.pojo.User">
+        <!-- id为主键的映射 -->
+        <id property="id" column="id"/>
+        <!-- result为主键之外的字段映射 -->
+        <result property="userAuthorId" column="user_author_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="userPassword" column="user_password"/>
+        <result property="userSalt" column="user_salt"/>
+        <result property="userSex" column="user_sex"/>
+        <result property="userEmail" column="user_email"/>
+        <result property="userLevel" column="user_level"/>
+        <result property="userRole" column="user_role"/>
+        <result property="userRegisterTime" column="user_register_time"/>
+        <result property="userIsDelete" column="user_is_delete"/>
+    </resultMap>
+    <select id="selectOne"
+            parameterMap="com.persistenthuang.lan108admin.pojo.User"
+            resultMap="userMap">
+        SELECT * FROM user WHERE user_is_delete=0
+        <if test="id!=null">and id=#{id}</if>
+        <if test="userName!=null">and user_name=#{userName}</if>
+        <if test="userEmail!=null">and user_email=#{userEmail}</if>
+    </select>
+
+    <insert id="insert"
+            parameterType="com.persistenthuang.lan108admin.pojo.User"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO user (
+        user_author_id,
+        user_name,
+        user_password,
+        user_salt,
+        user_email,
+        user_level,
+        user_role,
+        user_register_time,
+        user_is_delete)
+        values(
+        <choose>
+            <when test="userAuthorId==null">
+                "0",
+            </when>
+            <otherwise>
+                #{userAuthorId},
+            </otherwise>
+        </choose>
+        #{userName},
+        #{userPassword},
+        #{userSalt},
+        #{userEmail},
+        <choose>
+            <when test="userLevel==null">
+                "0",
+            </when>
+            <otherwise>
+                #{userLevel},
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="userRole==null">
+                "0",
+            </when>
+            <otherwise>
+                #{userRole},
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="userRegisterTime==null">
+                current_time ,
+            </when>
+            <otherwise>
+                #{userRegisterTime},
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="userIsDelete==null">
+                "0",
+            </when>
+            <otherwise>
+                #{userIsDelete}
+            </otherwise>
+        </choose>
+        )
+    </insert>
+
+    <update id="update"
+            parameterType="com.persistenthuang.lan108admin.pojo.User">
+        <if test="id!=null">
+            update
+            user
+            <set>
+                <if test="userAuthorId!=null">user_author_id = #{userAuthorId},</if>
+                <if test="userName!=null">user_name = #{userName},</if>
+                <if test="userPassword!=null">user_password=#{userPassword},</if>
+                <if test="userSalt!=null">user_salt= #{userSalt},</if>
+                <if test="userLevel!=null">user_level =#{userLevel},</if>
+                <if test="userEmail!=null">user_email = #{userEmail},</if>
+                <if test="userRole!=null">user_role = #{userRole},</if>
+                <if test="userRegisterTime!=null">user_register_time =#{userRegisterTime},</if>
+                <if test="userIsDelete!=null">user_is_delete =#{userIsDelete}</if>
+            </set>
+            where id = #{id}
+        </if>
+    </update>
+</mapper>

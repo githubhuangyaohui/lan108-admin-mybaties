@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.persistenthuang.lan108admin.mapper.LanFocusMapper">
+    <resultMap id="focusMap" type="com.persistenthuang.lan108admin.pojo.LanFocus">
+        <!-- id为主键的映射 -->
+        <id property="id" column="id"/>
+        <!-- result为主键之外的字段映射 -->
+        <result property="userId" column="user_id"/>
+        <result property="roleId" column="role_id"/>
+    </resultMap>
+    <select id="selectList"
+            parameterType="com.persistenthuang.lan108admin.pojo.LanFocus"
+            resultMap="focusMap">
+        select * from lan_focus
+        where true
+        <if test="id != null">
+            AND id = #{id}
+        </if>
+        <if test="userId != null">
+            AND user_id = #{userId}
+        </if>
+        <if test="roleId != null">
+            AND role_id = #{roleId}
+        </if>
+    </select>
+
+    <select id="selectOne"
+            parameterType="com.persistenthuang.lan108admin.pojo.LanFocus"
+            resultMap="focusMap">
+        select * from lan_focus
+        where true
+        <if test="id != null">
+            AND id = #{id}
+        </if>
+        <if test="userId != null">
+            AND user_id = #{userId}
+        </if>
+        <if test="roleId != null">
+            AND role_id = #{roleId}
+        </if>
+    </select>
+
+    <insert id="insertByUserRoleId"
+            parameterType="com.persistenthuang.lan108admin.pojo.LanFocus"
+            useGeneratedKeys="true">
+        insert into lan_focus(user_id, role_id)
+        values (#{userId}, #{roleId})
+    </insert>
+    <delete id="deleteByUserRoleId"
+            parameterType="com.persistenthuang.lan108admin.pojo.LanFocus">
+        delete
+        from lan_focus
+        where user_id = #{userId}
+          and role_id = #{roleId}
+    </delete>
+</mapper>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.persistenthuang.lan108admin.mapper.LanAuthorMapper">
+    <resultMap id="authorMap" type="com.persistenthuang.lan108admin.pojo.LanAuthor">
+        <!-- id为主键的映射 -->
+        <id property="id" column="id"/>
+        <!-- result为主键之外的字段映射 -->
+        <result property="authorShowName" column="author_show_name"/>
+        <result property="authorCreateData" column="author_create_data"/>
+        <result property="authorPhone" column="author_phone"/>
+        <result property="authorEmail" column="author_email"/>
+        <result property="authorIsDelete" column="author_is_delete"/>
+    </resultMap>
+    <select id="selectList"
+            parameterType="com.persistenthuang.lan108admin.pojo.LanAuthor"
+            resultMap="authorMap">
+        select * from lan_author
+        where admin_is_delete=#{adminIsDelete}
+        <if test="id != null">
+            AND id = #{id}
+        </if>
+        <if test="authorShowName != null">
+            AND author_show_name = #{authorShowName}
+        </if>
+        <if test="authorPhone != null">
+            AND author_phone = #{authorPhone}
+        </if>
+        <if test="authorEmail != null">
+            AND author_email = #{authorEmail}
+        </if>
+    </select>
+    <select id="selectOne"
+            parameterType="com.persistenthuang.lan108admin.pojo.LanAuthor"
+            resultMap="authorMap">
+        select * from lan_author
+        where admin_is_delete=#{adminIsDelete}
+        <if test="id != null">
+            AND id = #{id}
+        </if>
+        <if test="authorShowName != null">
+            AND author_show_name = #{authorShowName}
+        </if>
+        <if test="authorPhone != null">
+            AND author_phone = #{authorPhone}
+        </if>
+        <if test="authorEmail != null">
+            AND author_email = #{authorEmail}
+        </if>
+    </select>
+    <insert id="insert"
+            parameterType="com.persistenthuang.lan108admin.pojo.LanAuthor"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO lan_author (author_show_name,author_create_data,author_phone,author_email,author_is_delete)
+        values (#{authorShowName},current_time ,
+        <choose>
+            <when test="authorPhone==null">
+                " ",
+            </when>
+            <otherwise>
+                #{authorPhone},
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="authorEmail==null">
+                " ",
+            </when>
+            <otherwise>
+                #{authorEmail},
+            </otherwise>
+        </choose>
+        0
+        )
+    </insert>
+    <update id="update"
+            parameterType="com.persistenthuang.lan108admin.pojo.LanAuthor">
+        update lan_author
+        <set>
+            <if test="authorShowName!=null">author_show_name=#{authorShowName},</if>
+            <if test="authorPhone!=null">author_phone=#{authorPhone},</if>
+            <if test="authorEmail!=null">author_email=#{authorEmail},</if>
+            <if test="authorIsDelete!=null">author_is_delete=#{authorIsDelete},</if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="delete"
+            parameterType="com.persistenthuang.lan108admin.pojo.LanAuthor">
+        delete
+        from lan_author
+        where id = #{id}
+    </delete>
+</mapper>

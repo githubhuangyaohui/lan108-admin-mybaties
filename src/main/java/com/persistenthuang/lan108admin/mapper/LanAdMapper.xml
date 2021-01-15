@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.persistenthuang.lan108admin.mapper.LanAdMapper">
+    <resultMap id="adMap" type="com.persistenthuang.lan108admin.pojo.LanAd">
+        <!-- id为主键的映射 -->
+        <id property="id" column="id"/>
+        <!-- result为主键之外的字段映射 -->
+        <result property="lanAdImage" column="lan_ad_image"/>
+        <result property="lanAdLink" column="lan_ad_link"/>
+    </resultMap>
+    <!--增加-->
+    <insert id="insert"
+            parameterType="com.persistenthuang.lan108admin.pojo.LanAd"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        insert into lan_ad(lan_ad_image,lan_ad_link)
+        values(
+        #{lanAdImage},
+        <choose>
+            <when test="lanAdLink==null">
+                "108lan.com"
+            </when>
+            <otherwise>
+                #{lanAdLink},
+            </otherwise>
+        </choose>
+        )
+    </insert>
+    <!--修改-->
+    <update id="update"
+            parameterType="com.persistenthuang.lan108admin.pojo.LanAd">
+        update lan_ad
+        <set>
+            <if test="lanAdImage!=null">lan_ad_image=#{lanAdImage},</if>
+            <if test="lanAdLink!=null">lan_ad_link=#{lanAdLink},</if>
+        </set>
+        where id=#{id}
+    </update>
+    <!--删除-->
+    <delete id="delete"
+            parameterType="com.persistenthuang.lan108admin.pojo.LanAd">
+        delete
+        from lan_ad
+        where id = #{id}
+    </delete>
+    <!--查询-->
+    <select id="select" resultMap="adMap">
+        select *
+        from lan_ad
+    </select>
+</mapper>

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.persistenthuang.lan108admin.mapper.LanBlogsMapper">
+    <resultMap id="blogMap" type="com.persistenthuang.lan108admin.pojo.LanBlogs">
+        <!-- id为主键的映射 -->
+        <id property="id" column="id"/>
+        <!-- result为主键之外的字段映射 -->
+        <result property="blogsAuthorId" column="blogs_author_id"/>
+        <result property="blogsCreateData" column="blogs_create_data"/>
+        <result property="blogsTitle" column="blogs_title"/>
+        <result property="blogsSummary" column="blogs_summary"/>
+        <result property="blogsCover" column="blogs_cover"/>
+        <result property="blogsHtml" column="blogs_html"/>
+        <result property="blogsContent" column="blogs_content"/>
+        <result property="blogsColumn" column="blogs_column"/>
+        <result property="blogsPassword" column="blogs_password"/>
+        <result property="blogsStatus" column="blogs_status"/>
+    </resultMap>
+    <select id="selectList"
+            resultMap="blogMap">
+        select * from lan_blogs
+        where blogs_status=#{blogs.blogsStatus}
+        <if test="blogs.id != null">
+            AND id = #{id}
+        </if>
+        <if test="blogs.blogsAuthorId != null">
+            AND blogs_author_id = #{blogs.blogsAuthorId}
+        </if>
+        <if test="blogs.blogsColumn != null">
+            AND blogs_column = #{blogs.blogsColumn}
+        </if>
+        order by blogs_create_data DESC
+        limit #{currentPage},#{size}
+    </select>
+    <select id="selectOne"
+            resultMap="blogMap">
+        select * from lan_blogs
+        where blogs_status=#{blogs.blogsStatus}
+        <if test="blogs.id != null">
+            AND id = #{id}
+        </if>
+        <if test="blogs.blogsAuthorId != null">
+            AND blogs_author_id = #{blogs.blogsAuthorId}
+        </if>
+        <if test="blogs.blogsColumn != null">
+            AND blogs_column = #{blogs.blogsColumn}
+        </if>
+        order by blogs_create_data DESC
+        limit #{currentPage},#{size}
+    </select>
+
+    <select id="selectListByKey"
+            resultMap="blogMap">
+        select *
+        from lan_blogs
+        where blogs_title like '%${keywords}%'
+          and blogs_status = 2
+    </select>
+    <select id="selectListByMessage"
+            resultMap="blogMap">
+        select *
+        from lan_blogs
+        where id in (
+            select blog_id from lan_massage where user_id = #{userID} and msg_id_read = 0
+        )
+          and blogs_status = 2
+    </select>
+    <!--返回博客Id-->
+    <insert id="insert"
+            parameterType="com.persistenthuang.lan108admin.pojo.LanBlogs"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO lan_blogs (
+        blogs_author_id,
+        blogs_create_data,
+        blogs_title,
+        blogs_summary,
+        blogs_cover,
+        blogs_html,
+        blogs_content,
+        blogs_column,
+        blogs_password,
+        blogs_status)
+        values(
+        #{blogsAuthorId},
+        <choose>
+            <when test="blogsCreateData==null">
+                current_time ,
+            </when>
+            <otherwise>
+                #{blogsCreateData},
+            </otherwise>
+        </choose>
+        #{blogsTitle},
+        <choose>
+            <when test="blogsSummary==null">
+                " ",
+            </when>
+            <otherwise>
+                #{blogsSummary},
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="blogsCover==null">
+                " ",
+            </when>
+            <otherwise>
+                #{blogsCover},
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="blogsHtml==null">
+                " ",
+            </when>
+            <otherwise>
+                #{blogsHtml},
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="blogsContent==null">
+                " ",
+            </when>
+            <otherwise>
+                #{blogsContent},
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="blogsColumn==null">
+                "0",
+            </when>
+            <otherwise>
+                #{blogsColumn},
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="blogsPassword==null">
+                "0",
+            </when>
+            <otherwise>
+                #{blogsPassword},
+            </otherwise>
+        </choose>
+        0
+        )
+    </insert>
+
+    <!--修改-->
+    <update id="update"
+            parameterType="com.persistenthuang.lan108admin.pojo.LanBlogs">
+        update lan_blogs
+        <set>
+            <if test="blogsAuthorId!=null">blogs_author_id=#{blogsAuthorId},</if>
+            <if test="blogsTitle!=null">blogs_title=#{blogsTitle},</if>
+            <if test="blogsSummary!=null">blogs_summary=#{blogsSummary} ,</if>
+            <if test="blogsCover!=null">blogs_cover=#{blogsCover},</if>
+            <if test="blogsHtml!=null">blogs_html=#{blogsHtml},</if>
+            <if test="blogsContent!=null">blogs_content=#{blogsContent},</if>
+            <if test="blogsColumn!=null">blogs_column=#{blogsColumn},</if>
+            <if test="blogsPassword!=null">blogs_password=#{blogsPassword},</if>
+            <if test="blogsStatus!=null">blogs_status=#{blogsStatus},</if>
+        </set>
+        where id=#{id}
+    </update>
+    <!--删除-->
+    <delete id="delete"
+            parameterType="com.persistenthuang.lan108admin.pojo.LanBlogs">
+        delete
+        from lan_blogs
+        where id = #{id}
+    </delete>
+</mapper>

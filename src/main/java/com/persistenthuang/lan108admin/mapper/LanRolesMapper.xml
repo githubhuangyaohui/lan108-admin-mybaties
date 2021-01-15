@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.persistenthuang.lan108admin.mapper.LanRolesMapper">
+    <resultMap id="rolesMap" type="com.persistenthuang.lan108admin.pojo.LanRoles">
+        <!-- id为主键的映射 -->
+        <id property="id" column="id"/>
+        <!-- result为主键之外的字段映射 -->
+        <result property="rolesLanName" column="roles_lan_name"/>
+        <result property="rolesStarname" column="roles_starname"/>
+        <result property="rolesNickname" column="roles_nickname"/>
+        <result property="rolesTruename" column="roles_truename"/>
+        <result property="rolesDescription" column="roles_description"/>
+        <result property="rolesImg" column="roles_img"/>
+    </resultMap>
+
+    <select id="selectOne"
+            resultMap="rolesMap"
+            parameterType="com.persistenthuang.lan108admin.pojo.LanRoles">
+        select * from lan_roles where true
+        <if test="id!=null">and id=#{id}</if>
+        <if test="rolesLanName!=null">and roles_lan_name=#{rolesLanName}</if>
+        <if test="rolesState!=null">and roles_state=#{rolesState}</if>
+        <if test="rolesStarname!=null">and roles_starname=#{rolesStarname}</if>
+        <if test="rolesNickname!=null">and roles_nickname=#{rolesNickname}</if>
+        <if test="rolesTruename!=null">and roles_truename=#{rolesTruename}</if>
+        <if test="rolesDescription!=null">and roles_description=#{rolesDescription}</if>
+        <if test="rolesImg!=null">and roles_img=#{rolesImg}</if>
+    </select>
+
+    <select id="selectList"
+            parameterType="com.persistenthuang.lan108admin.pojo.LanRoles"
+            resultMap="rolesMap">
+        select * from lan_roles where true
+        <if test="id!=null">and id=#{id}</if>
+        <if test="rolesLanName!=null">and roles_lan_name=#{rolesLanName}</if>
+        <if test="rolesState!=null">and roles_state=#{rolesState}</if>
+        <if test="rolesStarname!=null">and roles_starname=#{rolesStarname}</if>
+        <if test="rolesNickname!=null">and roles_nickname=#{rolesNickname}</if>
+        <if test="rolesTruename!=null">and roles_truename=#{rolesTruename}</if>
+        <if test="rolesDescription!=null">and roles_description=#{rolesDescription}</if>
+        <if test="rolesImg!=null">and roles_img=#{rolesImg}</if>
+    </select>
+
+    <update id="update"
+            parameterType="com.persistenthuang.lan108admin.pojo.LanRoles">
+        <if test="id!=null">
+            update
+            lan_roles
+            <set>
+                <if test="rolesLanName!=null">roles_lan_name = #{rolesLanName},</if>
+                <if test="rolesState!=null">roles_state = #{rolesState},</if>
+                <if test="rolesStarname!=null">roles_starname=#{rolesStarname},</if>
+                <if test="rolesNickname!=null">roles_nickname= #{rolesNickname},</if>
+                <if test="rolesTruename!=null">roles_truename =#{rolesTruename},</if>
+                <if test="rolesDescription!=null">roles_description = #{rolesDescription},</if>
+                <if test="rolesImg!=null">roles_img = #{rolesImg},</if>
+            </set>
+            where id = #{id}
+        </if>
+    </update>
+</mapper>
