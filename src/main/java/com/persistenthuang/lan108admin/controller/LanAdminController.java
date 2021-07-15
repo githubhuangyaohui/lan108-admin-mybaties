@@ -33,10 +33,10 @@ public class LanAdminController {
      * @return 管理员name
      */
     @CrossOrigin
-    @RequestMapping("/api/lan/rolesAdminName")
+    @RequestMapping("/api/lan/adminname")
     @ResponseBody
     public String CreateList(@RequestBody JSONObject jsonObject) {
-        int roleID = jsonObject.getInteger("roleID");
+        int roleID = jsonObject.getInteger("roleId");
         if (lanAdminService.isExitByRoleId(roleID)) {
             int userID = lanAdminService.getUserIdByRoleId(roleID);
             if (userService.isExistByID(userID)) {

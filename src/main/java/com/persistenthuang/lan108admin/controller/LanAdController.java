@@ -20,7 +20,7 @@ public class LanAdController {
     LanAdServiceImpl lanAdService;
 
     @CrossOrigin
-    @PostMapping("/api/ad/index")
+    @PostMapping("/api/ad/home")
     @ResponseBody
     public String getHomeImage() {
         List<LanAd> lanAdList = lanAdService.getLanAdList();
