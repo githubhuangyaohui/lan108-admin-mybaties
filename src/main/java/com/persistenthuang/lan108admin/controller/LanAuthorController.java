@@ -28,7 +28,7 @@ public class LanAuthorController {
      * @return
      */
     @CrossOrigin
-    @RequestMapping("/api/author/getAuthorID")
+    @RequestMapping("/api/user/authorId")
     @ResponseBody
     public String getAuthorID(@RequestBody JSONObject jsonObject) {
         int userId = jsonObject.getInteger("userId");
@@ -44,44 +44,43 @@ public class LanAuthorController {
      * @return
      */
     @CrossOrigin
-    @RequestMapping("/api/view/getAuthorMessage")
+    @RequestMapping("/api/user/authorCard/Aid")
     @ResponseBody
-    public String getAuthorMessage(@RequestBody JSONObject jsonObject) {
-        int authorID = jsonObject.getInteger("authorID");
+    public String getAuthorCard(@RequestBody JSONObject jsonObject) {
+        int authorID = jsonObject.getInteger("authorId");
         LanAuthor authorMessage = lanAuthorService.getByAuthorID(authorID);
         return JSONObject.toJSONString(authorMessage);
     }
 
     /**
      * 根据userId获取作者信息
-     *
-     * @param userId
      * @return
      */
     @CrossOrigin
-    @RequestMapping("/api/admin/{userId}/author")
+    @RequestMapping("/api/user/authorCard/Uid")
     @ResponseBody
-    public String CreateList(@PathVariable(value = "userId") int userId) {
+    public String getUserCard(@RequestBody JSONObject jsonObject) {
+        int userId = jsonObject.getInteger("userId");
         int authorID = userService.getAuthorID(userId);
         LanAuthor author = lanAuthorService.getByAuthorID(authorID);
         log.info("返回作者信息:" + JSONObject.toJSONString(author));
         return JSONObject.toJSONString(author);
     }
 
-    /**
-     * 根据作者id获取作者全部信息
-     *
-     * @param id
-     * @return
-     */
-    @CrossOrigin
-    @RequestMapping("/api/view/{id}/authorMassage")
-    @ResponseBody
-    public String getAuthorMassage(@PathVariable(value = "id") int id) {
-        LanAuthor author = lanAuthorService.getByAuthorID(id);
-        log.info("获取作者信息:" + author.toString());
-        return JSONObject.toJSONString(author);
-    }
+//    /**
+//     * 根据作者id获取作者全部信息
+//     *
+//     * @param id
+//     * @return
+//     */
+//    @CrossOrigin
+//    @RequestMapping("/api/view/{id}/authorMassage")
+//    @ResponseBody
+//    public String getAuthorMassage(@PathVariable(value = "id") int id) {
+//        LanAuthor author = lanAuthorService.getByAuthorID(id);
+//        log.info("获取作者信息:" + author.toString());
+//        return JSONObject.toJSONString(author);
+//    }
 
     /**
      * 注册成为作者
@@ -90,7 +89,7 @@ public class LanAuthorController {
      * @return
      */
     @CrossOrigin
-    @RequestMapping("/api/admin/addAuthor")
+    @RequestMapping("/api/user/addAuthor")
     @ResponseBody
     public String AddAuthor(@RequestBody JSONObject jsonObject) {
         log.info("注册成为作者");

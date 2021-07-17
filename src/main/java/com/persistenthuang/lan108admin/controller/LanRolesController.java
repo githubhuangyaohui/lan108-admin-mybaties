@@ -31,7 +31,7 @@ public class LanRolesController {
      * @return
      */
     @CrossOrigin
-    @RequestMapping("/api/home/roles")
+    @RequestMapping("/api/user/roleList")
     @ResponseBody
     public String selectRoleAll() {
         List<LanRoles> lanRoles = lanRolesService.getAllList();
@@ -39,19 +39,6 @@ public class LanRolesController {
         return JSONObject.toJSONString(lanRoles);
     }
 
-    /**
-     * 获取专栏列表id和标题
-     *
-     * @return
-     */
-    @CrossOrigin
-    @RequestMapping("/api/lan/rolesName")
-    @ResponseBody
-    public String selectRoleAllName() {
-        List<LanRoles> lanRoles = lanRolesService.getAllList();
-        log.info("专栏列表:" + lanRoles.toString());
-        return JSONObject.toJSONString(lanRoles);
-    }
 
     /**
      * 根据ID获取专栏详细信息
@@ -59,25 +46,12 @@ public class LanRolesController {
      * @return
      */
     @CrossOrigin
-    @RequestMapping("/api/lan/LanRoles/{id}")
+    @RequestMapping("/api/user/roleCard/Rid")
     @ResponseBody
-    public String selectRoleMessage(@PathVariable(value = "id") int id) {
-        LanRoles lanRole = lanRolesService.getRolesMessageByID(id);
+    public String selectRoleMessage(@RequestBody JSONObject jsonObject) {
+        int rid = jsonObject.getInteger("rid");
+        LanRoles lanRole = lanRolesService.getRolesMessageByID(rid);
         log.info("专栏详细信息:" + lanRole.toString());
-        return JSONObject.toJSONString(lanRole);
-    }
-
-    /**
-     * 根据ID获取专栏标题
-     *
-     * @return
-     */
-    @CrossOrigin
-    @RequestMapping("/api/view/role/message")
-    @ResponseBody
-    public String selectViewRoleMessage(@RequestBody JSONObject jsonObject) {
-        int roleId = jsonObject.getInteger("roleId");
-        LanRoles lanRole = lanRolesService.getRolesMessageByID(roleId);
         return JSONObject.toJSONString(lanRole);
     }
 
@@ -92,7 +66,7 @@ public class LanRolesController {
     @ResponseBody
     public String UpdateRole(@RequestBody JSONObject jsonObject) {
         //接受前端信息
-        int userID = jsonObject.getInteger("userID");
+        int userID = jsonObject.getInteger("userId");
         LanRoles lanRoles = new LanRoles();
         lanRoles.setRolesLanName(jsonObject.getString("rolesLanName"));
         lanRoles.setRolesDescription(jsonObject.getString("rolesDescription"));
@@ -109,16 +83,16 @@ public class LanRolesController {
     }
 
     /**
-     * 管理员修改专栏信息
+     * 管理员获得专栏信息
      *
      * @param jsonObject
      * @return
      */
     @CrossOrigin
-    @RequestMapping("/api/admin/RoleMessage")
+    @RequestMapping("/api/admin/RoleCard/Uid")
     @ResponseBody
     public String getRole(@RequestBody JSONObject jsonObject) {
-        int userID = jsonObject.getInteger("userID");
+        int userID = jsonObject.getInteger("userId");
         int roleId = lanAdminService.getRoleIdByUserId(userID);
         LanRoles rolesMessage = lanRolesService.getRolesMessageByID(roleId);
         log.info("专栏信息:" + rolesMessage.toString());

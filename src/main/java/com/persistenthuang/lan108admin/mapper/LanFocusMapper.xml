@@ -12,48 +12,44 @@
         <result property="roleId" column="role_id"/>
     </resultMap>
     <select id="selectList"
-            parameterType="com.persistenthuang.lan108admin.pojo.LanFocus"
             resultMap="focusMap">
         select * from lan_focus
         where true
-        <if test="id != null">
-            AND id = #{id}
+        <if test="focus.id != 0">
+            AND id = #{focus.id}
         </if>
-        <if test="userId != null">
-            AND user_id = #{userId}
+        <if test="focus.userId != 0">
+            AND user_id = #{focus.userId}
         </if>
-        <if test="roleId != null">
-            AND role_id = #{roleId}
+        <if test="focus.roleId != 0">
+            AND role_id = #{focus.roleId}
         </if>
     </select>
 
     <select id="selectOne"
-            parameterType="com.persistenthuang.lan108admin.pojo.LanFocus"
             resultMap="focusMap">
         select * from lan_focus
         where true
-        <if test="id != null">
-            AND id = #{id}
+        <if test="focus.id != 0">
+            AND id = #{focus.id}
         </if>
-        <if test="userId != null">
-            AND user_id = #{userId}
+        <if test="focus.userId != 0">
+            AND user_id = #{focus.userId}
         </if>
-        <if test="roleId != null">
-            AND role_id = #{roleId}
+        <if test="focus.roleId != 0">
+            AND role_id = #{focus.roleId}
         </if>
     </select>
 
     <insert id="insertByUserRoleId"
-            parameterType="com.persistenthuang.lan108admin.pojo.LanFocus"
             useGeneratedKeys="true">
         insert into lan_focus(user_id, role_id)
-        values (#{userId}, #{roleId})
+        values (#{focus.userId}, #{focus.roleId})
     </insert>
-    <delete id="deleteByUserRoleId"
-            parameterType="com.persistenthuang.lan108admin.pojo.LanFocus">
+    <delete id="deleteByUserRoleId">
         delete
         from lan_focus
-        where user_id = #{userId}
-          and role_id = #{roleId}
+        where user_id = #{focus.userId}
+          and role_id = #{focus.roleId}
     </delete>
 </mapper>

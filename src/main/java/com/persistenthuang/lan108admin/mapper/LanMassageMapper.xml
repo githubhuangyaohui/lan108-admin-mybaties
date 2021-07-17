@@ -16,7 +16,6 @@
     </resultMap>
 
     <insert id="insert"
-            parameterMap="com.persistenthuang.lan108admin.pojo.LanMassage"
             useGeneratedKeys="true"
             keyProperty="id">
         INSERT INTO lan_massage (user_id,
@@ -24,26 +23,24 @@
                                  msg_type,
                                  msg_creat_data,
                                  msg_id_read)
-        values (#{userId},
-                #{blogId},
+        values (#{massage.userId},
+                #{massage.blogId},
                 "0",
                 current_time,
                 "0")
     </insert>
     <select id="selectList"
-            parameterMap="com.persistenthuang.lan108admin.pojo.LanMassage"
             resultMap="messageMap">
         select *
         from lan_massage
-        where user_id = #{userId}
+        where user_id = #{massage.userId}
           and msg_id_read = "0"
     </select>
 
-    <update id="update"
-            parameterMap="com.persistenthuang.lan108admin.pojo.LanMassage">
+    <update id="update">
         update lan_massage
         set msg_id_read=1
-        where user_id = #{userId}
-          and blog_id = #{blogId}
+        where user_id = #{massage.userId}
+          and blog_id = #{massage.blogId}
     </update>
 </mapper>

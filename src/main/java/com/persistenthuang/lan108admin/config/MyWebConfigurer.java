@@ -30,10 +30,9 @@ public class MyWebConfigurer implements WebMvcConfigurer {
                 .excludePathPatterns("/api/email")
                 .excludePathPatterns("/api/email")
                 .excludePathPatterns("/api/logout")
-                .excludePathPatterns("/api/home/**")
-                .excludePathPatterns("/api/lan/**")
-                .excludePathPatterns("/api/blogs/**")
-                .excludePathPatterns("/api/view/**")
+                .excludePathPatterns("/api/user/**")
+                .excludePathPatterns("/api/editor/**")
+                .excludePathPatterns("/api/admin/**")
                 .excludePathPatterns("/images/**");
 
     }

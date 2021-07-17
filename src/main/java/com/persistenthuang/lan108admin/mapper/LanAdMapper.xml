@@ -13,38 +13,35 @@
     </resultMap>
     <!--增加-->
     <insert id="insert"
-            parameterType="com.persistenthuang.lan108admin.pojo.LanAd"
             useGeneratedKeys="true"
             keyProperty="id">
         insert into lan_ad(lan_ad_image,lan_ad_link)
         values(
         #{lanAdImage},
         <choose>
-            <when test="lanAdLink==null">
+            <when test="ad.lanAdLink==null">
                 "108lan.com"
             </when>
             <otherwise>
-                #{lanAdLink},
+                #{ad.lanAdLink},
             </otherwise>
         </choose>
         )
     </insert>
     <!--修改-->
-    <update id="update"
-            parameterType="com.persistenthuang.lan108admin.pojo.LanAd">
+    <update id="update">
         update lan_ad
         <set>
-            <if test="lanAdImage!=null">lan_ad_image=#{lanAdImage},</if>
-            <if test="lanAdLink!=null">lan_ad_link=#{lanAdLink},</if>
+            <if test="ad.lanAdImage!=null">lan_ad_image=#{ad.lanAdImage},</if>
+            <if test="ad.lanAdLink!=null">lan_ad_link=#{ad.lanAdLink},</if>
         </set>
-        where id=#{id}
+        where id=#{ad.id}
     </update>
     <!--删除-->
-    <delete id="delete"
-            parameterType="com.persistenthuang.lan108admin.pojo.LanAd">
+    <delete id="delete">
         delete
         from lan_ad
-        where id = #{id}
+        where id = #{ad.id}
     </delete>
     <!--查询-->
     <select id="select" resultMap="adMap">

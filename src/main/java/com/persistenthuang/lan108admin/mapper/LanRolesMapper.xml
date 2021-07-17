@@ -17,48 +17,45 @@
     </resultMap>
 
     <select id="selectOne"
-            resultMap="rolesMap"
-            parameterType="com.persistenthuang.lan108admin.pojo.LanRoles">
+            resultMap="rolesMap">
         select * from lan_roles where true
-        <if test="id!=null">and id=#{id}</if>
-        <if test="rolesLanName!=null">and roles_lan_name=#{rolesLanName}</if>
-        <if test="rolesState!=null">and roles_state=#{rolesState}</if>
-        <if test="rolesStarname!=null">and roles_starname=#{rolesStarname}</if>
-        <if test="rolesNickname!=null">and roles_nickname=#{rolesNickname}</if>
-        <if test="rolesTruename!=null">and roles_truename=#{rolesTruename}</if>
-        <if test="rolesDescription!=null">and roles_description=#{rolesDescription}</if>
-        <if test="rolesImg!=null">and roles_img=#{rolesImg}</if>
+        <if test="roles.id!=0">and id=#{roles.id}</if>
+        <if test="roles.rolesLanName!=null">and roles_lan_name=#{roles.rolesLanName}</if>
+        <if test="roles.rolesState!=0">and roles_state=#{roles.rolesState}</if>
+        <if test="roles.rolesStarname!=null">and roles_starname=#{roles.rolesStarname}</if>
+        <if test="roles.rolesNickname!=null">and roles_nickname=#{roles.rolesNickname}</if>
+        <if test="roles.rolesTruename!=null">and roles_truename=#{roles.rolesTruename}</if>
+        <if test="roles.rolesDescription!=null">and roles_description=#{roles.rolesDescription}</if>
+        <if test="roles.rolesImg!=null">and roles_img=#{roles.rolesImg}</if>
     </select>
 
     <select id="selectList"
-            parameterType="com.persistenthuang.lan108admin.pojo.LanRoles"
             resultMap="rolesMap">
         select * from lan_roles where true
-        <if test="id!=null">and id=#{id}</if>
-        <if test="rolesLanName!=null">and roles_lan_name=#{rolesLanName}</if>
-        <if test="rolesState!=null">and roles_state=#{rolesState}</if>
-        <if test="rolesStarname!=null">and roles_starname=#{rolesStarname}</if>
-        <if test="rolesNickname!=null">and roles_nickname=#{rolesNickname}</if>
-        <if test="rolesTruename!=null">and roles_truename=#{rolesTruename}</if>
-        <if test="rolesDescription!=null">and roles_description=#{rolesDescription}</if>
-        <if test="rolesImg!=null">and roles_img=#{rolesImg}</if>
+        <if test="roles.id!=0">and id=#{roles.id}</if>
+        <if test="roles.rolesLanName!=null">and roles_lan_name=#{roles.rolesLanName}</if>
+        <if test="roles.rolesState!=0">and roles_state=#{roles.rolesState}</if>
+        <if test="roles.rolesStarname!=null">and roles_starname=#{roles.rolesStarname}</if>
+        <if test="roles.rolesNickname!=null">and roles_nickname=#{roles.rolesNickname}</if>
+        <if test="roles.rolesTruename!=null">and roles_truename=#{roles.rolesTruename}</if>
+        <if test="roles.rolesDescription!=null">and roles_description=#{roles.rolesDescription}</if>
+        <if test="roles.rolesImg!=null">and roles_img=#{roles.rolesImg}</if>
     </select>
 
-    <update id="update"
-            parameterType="com.persistenthuang.lan108admin.pojo.LanRoles">
-        <if test="id!=null">
+    <update id="update">
+        <if test="id!=0">
             update
             lan_roles
             <set>
-                <if test="rolesLanName!=null">roles_lan_name = #{rolesLanName},</if>
-                <if test="rolesState!=null">roles_state = #{rolesState},</if>
-                <if test="rolesStarname!=null">roles_starname=#{rolesStarname},</if>
-                <if test="rolesNickname!=null">roles_nickname= #{rolesNickname},</if>
-                <if test="rolesTruename!=null">roles_truename =#{rolesTruename},</if>
-                <if test="rolesDescription!=null">roles_description = #{rolesDescription},</if>
-                <if test="rolesImg!=null">roles_img = #{rolesImg},</if>
+                <if test="roles.rolesLanName!=null">roles_lan_name = #{roles.rolesLanName},</if>
+                <if test="roles.rolesState!=null">roles_state = #{roles.rolesState},</if>
+                <if test="roles.rolesStarname!=null">roles_starname=#{roles.rolesStarname},</if>
+                <if test="roles.rolesNickname!=null">roles_nickname= #{roles.rolesNickname},</if>
+                <if test="roles.rolesTruename!=null">roles_truename =#{roles.rolesTruename},</if>
+                <if test="roles.rolesDescription!=null">roles_description = #{roles.rolesDescription},</if>
+                <if test="roles.rolesImg!=null">roles_img = #{roles.rolesImg},</if>
             </set>
-            where id = #{id}
+            where id = #{roles.id}
         </if>
     </update>
 </mapper>

@@ -28,14 +28,13 @@ public class LanAdminController {
 
     /**
      * 获取专栏管理员名称
-     *
      * @param jsonObject RoleId
      * @return 管理员name
      */
     @CrossOrigin
-    @RequestMapping("/api/lan/adminname")
+    @RequestMapping("/api/user/admin")
     @ResponseBody
-    public String CreateList(@RequestBody JSONObject jsonObject) {
+    public String getLanAdminName(@RequestBody JSONObject jsonObject) {
         int roleID = jsonObject.getInteger("roleId");
         if (lanAdminService.isExitByRoleId(roleID)) {
             int userID = lanAdminService.getUserIdByRoleId(roleID);
@@ -57,7 +56,7 @@ public class LanAdminController {
      * @return 是返回200，不是返回400
      */
     @CrossOrigin
-    @RequestMapping("/api/admin/isAdmin")
+    @RequestMapping("/api/user/isAdmin")
     @ResponseBody
     public String isAdmin(@RequestBody JSONObject jsonObject) {
         int userId = jsonObject.getInteger("userId");

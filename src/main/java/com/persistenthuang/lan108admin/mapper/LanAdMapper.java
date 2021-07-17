@@ -3,6 +3,7 @@ package com.persistenthuang.lan108admin.mapper;
 
 import com.persistenthuang.lan108admin.pojo.LanAd;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,11 +12,11 @@ import java.util.List;
 @Repository
 public interface LanAdMapper{
     //增
-    int insert(LanAd ad);
+    int insert(@Param("ad") LanAd ad);
     //删
-    int delete(LanAd ad);
+    int delete(@Param("ad")LanAd ad);
     //改
-    int update(LanAd ad);
+    int update(@Param("ad")LanAd ad);
     //查
     List<LanAd> select();
 }

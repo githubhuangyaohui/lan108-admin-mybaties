@@ -15,81 +15,76 @@
         <result property="authorIsDelete" column="author_is_delete"/>
     </resultMap>
     <select id="selectList"
-            parameterType="com.persistenthuang.lan108admin.pojo.LanAuthor"
             resultMap="authorMap">
         select * from lan_author
-        where admin_is_delete=#{adminIsDelete}
-        <if test="id != null">
-            AND id = #{id}
+        where admin_is_delete=#{author.adminIsDelete}
+        <if test="author.id != 0">
+            AND id = #{author.id}
         </if>
-        <if test="authorShowName != null">
-            AND author_show_name = #{authorShowName}
+        <if test="author.authorShowName != null">
+            AND author_show_name = #{author.authorShowName}
         </if>
-        <if test="authorPhone != null">
-            AND author_phone = #{authorPhone}
+        <if test="author.authorPhone != null">
+            AND author_phone = #{author.authorPhone}
         </if>
-        <if test="authorEmail != null">
-            AND author_email = #{authorEmail}
+        <if test="author.authorEmail != null">
+            AND author_email = #{author.authorEmail}
         </if>
     </select>
     <select id="selectOne"
-            parameterType="com.persistenthuang.lan108admin.pojo.LanAuthor"
             resultMap="authorMap">
         select * from lan_author
-        where admin_is_delete=#{adminIsDelete}
-        <if test="id != null">
-            AND id = #{id}
+        where admin_is_delete=#{author.adminIsDelete}
+        <if test="author.id != 0">
+            AND id = #{author.id}
         </if>
-        <if test="authorShowName != null">
-            AND author_show_name = #{authorShowName}
+        <if test="author.authorShowName != null">
+            AND author_show_name = #{author.authorShowName}
         </if>
-        <if test="authorPhone != null">
-            AND author_phone = #{authorPhone}
+        <if test="author.authorPhone != null">
+            AND author_phone = #{author.authorPhone}
         </if>
-        <if test="authorEmail != null">
-            AND author_email = #{authorEmail}
+        <if test="author.authorEmail != null">
+            AND author_email = #{author.authorEmail}
         </if>
     </select>
     <insert id="insert"
-            parameterType="com.persistenthuang.lan108admin.pojo.LanAuthor"
             useGeneratedKeys="true"
             keyProperty="id">
         INSERT INTO lan_author (author_show_name,author_create_data,author_phone,author_email,author_is_delete)
-        values (#{authorShowName},current_time ,
+        values (#{author.authorShowName},current_time ,
         <choose>
-            <when test="authorPhone==null">
+            <when test="author.authorPhone==null">
                 " ",
             </when>
             <otherwise>
-                #{authorPhone},
+                #{author.authorPhone},
             </otherwise>
         </choose>
         <choose>
-            <when test="authorEmail==null">
+            <when test="author.authorEmail==null">
                 " ",
             </when>
             <otherwise>
-                #{authorEmail},
+                #{author.authorEmail},
             </otherwise>
         </choose>
         0
         )
     </insert>
-    <update id="update"
-            parameterType="com.persistenthuang.lan108admin.pojo.LanAuthor">
+    <update id="update">
         update lan_author
         <set>
-            <if test="authorShowName!=null">author_show_name=#{authorShowName},</if>
-            <if test="authorPhone!=null">author_phone=#{authorPhone},</if>
-            <if test="authorEmail!=null">author_email=#{authorEmail},</if>
-            <if test="authorIsDelete!=null">author_is_delete=#{authorIsDelete},</if>
+            <if test="author.authorShowName!=null">author_show_name=#{author.authorShowName},</if>
+            <if test="author.authorPhone!=null">author_phone=#{author.authorPhone},</if>
+            <if test="author.authorEmail!=null">author_email=#{author.authorEmail},</if>
+            <if test="author.authorIsDelete!=null">author_is_delete=#{author.authorIsDelete},</if>
         </set>
-        where id=#{id}
+        where id=#{author.id}
     </update>
-    <delete id="delete"
-            parameterType="com.persistenthuang.lan108admin.pojo.LanAuthor">
+    <delete id="delete">
         delete
         from lan_author
-        where id = #{id}
+        where id = #{author.id}
     </delete>
 </mapper>

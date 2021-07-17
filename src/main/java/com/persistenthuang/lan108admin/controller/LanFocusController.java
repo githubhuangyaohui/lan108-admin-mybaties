@@ -28,11 +28,11 @@ public class LanFocusController {
      * @return 是否关注
      */
     @CrossOrigin
-    @RequestMapping("/api/lan/rolesFocus")
+    @RequestMapping("/api/user/rolesIsFocus")
     @ResponseBody
     public String isFocus(@RequestBody JSONObject jsonObject) {
         int roleID = jsonObject.getInteger("roleId");
-        int userID = jsonObject.getInteger("userID");
+        int userID = jsonObject.getInteger("userId");
         if (lanFocusService.isFocus(userID, roleID)) {
             log.info("判断已经关注：" + userID + "+" + roleID);
             return JSONObject.toJSONString(new ResuleMessage(Result.SUCCESS, ""));
@@ -49,11 +49,11 @@ public class LanFocusController {
      * @return
      */
     @CrossOrigin
-    @RequestMapping("/api/lan/getFocus")
+    @RequestMapping("/api/user/focusRole")
     @ResponseBody
     public String getFocus(@RequestBody JSONObject jsonObject) {
         int roleID = jsonObject.getInteger("roleId");
-        int userID = jsonObject.getInteger("userID");
+        int userID = jsonObject.getInteger("userId");
         log.info("获得关注：" + userID + "+" + roleID);
         if (lanFocusService.isFocus(userID, roleID)) {
             return JSONObject.toJSONString(new ResuleMessage(Result.FAILURE, "已关注"));
@@ -70,11 +70,11 @@ public class LanFocusController {
      * @return
      */
     @CrossOrigin
-    @RequestMapping("/api/lan/getUnFocus")
+    @RequestMapping("/api/user/unFocusRole")
     @ResponseBody
     public String getUnFocus(@RequestBody JSONObject jsonObject) {
         int roleID = jsonObject.getInteger("roleId");
-        int userID = jsonObject.getInteger("userID");
+        int userID = jsonObject.getInteger("userId");
         log.info("取消关注：" + userID + "+" + roleID);
         if (lanFocusService.isFocus(userID, roleID)) {
             lanFocusService.getUnnFocus(userID, roleID);

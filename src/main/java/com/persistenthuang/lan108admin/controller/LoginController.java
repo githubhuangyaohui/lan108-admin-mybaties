@@ -44,7 +44,7 @@ public class LoginController {
 
     @CrossOrigin
     @ResponseBody
-    @GetMapping("api/logout")
+    @GetMapping("/api/logout")
     public String logout() {
         log.info("开始登出");
         Subject subject = SecurityUtils.getSubject();

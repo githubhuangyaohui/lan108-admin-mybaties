@@ -26,11 +26,11 @@ public class LanMassageController {
     LanMassageServiceImpl lanMassageService;
 
     @CrossOrigin
-    @RequestMapping("/api/focus/message/list")
+    @RequestMapping("/api/user/focusList")
     @ResponseBody
     public String getFocusMassageList(@RequestBody JSONObject jsonObject) {
         //获得用户ID
-        int userID = jsonObject.getInteger("userID");
+        int userID = jsonObject.getInteger("userId");
         //获取信息列表
         // List<LanMassage> massages = lanMassageService.getMassageListByUserId(userID);
         //返回博客列表
@@ -38,12 +38,12 @@ public class LanMassageController {
     }
 
     @CrossOrigin
-    @RequestMapping("/api/focus/message/setRead")
+    @RequestMapping("/api/user/focus/setRead")
     @ResponseBody
     public String setFocusMassageRead(@RequestBody JSONObject jsonObject) {
         //获得用户ID
-        int userID = jsonObject.getInteger("userID");
-        int blogID = jsonObject.getInteger("blogID");
+        int userID = jsonObject.getInteger("userId");
+        int blogID = jsonObject.getInteger("blogId");
         //修改数据
         if (lanMassageService.setIsRead(userID, blogID) != 0) {
             return JSONObject.toJSONString(new ResuleMessage(Result.SUCCESS, "已读"));

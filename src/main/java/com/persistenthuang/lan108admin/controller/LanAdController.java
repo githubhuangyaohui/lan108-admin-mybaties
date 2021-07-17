@@ -22,7 +22,7 @@ public class LanAdController {
     @CrossOrigin
     @PostMapping("/api/ad/home")
     @ResponseBody
-    public String getHomeImage() {
+    public String getHomeImageLink() {
         List<LanAd> lanAdList = lanAdService.getLanAdList();
         log.info("广告链接"+JSONObject.toJSONString(lanAdList));
         return JSONObject.toJSONString(lanAdList);

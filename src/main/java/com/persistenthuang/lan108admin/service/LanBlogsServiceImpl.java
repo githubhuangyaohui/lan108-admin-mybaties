@@ -54,7 +54,7 @@ public class LanBlogsServiceImpl implements LanBlogsService {
 
     @Override
     public List<LanBlogs> selectBlogs(LanBlogs lanBlogs, int currentPage, int size) {
-        return lanBlogsMapper.selectList(lanBlogs,currentPage,size);
+        return lanBlogsMapper.selectList(lanBlogs,(currentPage-1)*size,size);
     }
 
     @Override

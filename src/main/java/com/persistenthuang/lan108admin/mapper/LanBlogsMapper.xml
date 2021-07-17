@@ -22,34 +22,35 @@
     <select id="selectList"
             resultMap="blogMap">
         select * from lan_blogs
-        where blogs_status=#{blogs.blogsStatus}
-        <if test="blogs.id != null">
-            AND id = #{id}
+        where blogs_status=#{lanBlogs.blogsStatus}
+        <if test="lanBlogs.id != 0">
+            AND id = #{blogs.id}
         </if>
-        <if test="blogs.blogsAuthorId != null">
-            AND blogs_author_id = #{blogs.blogsAuthorId}
+        <if test="lanBlogs.blogsAuthorId != 0">
+            AND blogs_author_id = #{lanBlogs.blogsAuthorId}
         </if>
-        <if test="blogs.blogsColumn != null">
-            AND blogs_column = #{blogs.blogsColumn}
+        <if test="lanBlogs.blogsColumn != 0">
+            AND blogs_column = #{lanBlogs.blogsColumn}
         </if>
         order by blogs_create_data DESC
-        limit #{currentPage},#{size}
+        limit #{start},#{size}
     </select>
+
     <select id="selectOne"
             resultMap="blogMap">
         select * from lan_blogs
-        where blogs_status=#{blogs.blogsStatus}
-        <if test="blogs.id != null">
-            AND id = #{id}
+        where blogs_status=#{lanBlogs.blogsStatus}
+        <if test="lanBlogs.id != 0">
+            AND id = #{lanBlogs.id}
         </if>
-        <if test="blogs.blogsAuthorId != null">
-            AND blogs_author_id = #{blogs.blogsAuthorId}
+        <if test="lanBlogs.blogsAuthorId != 0">
+            AND blogs_author_id = #{lanBlogs.blogsAuthorId}
         </if>
-        <if test="blogs.blogsColumn != null">
-            AND blogs_column = #{blogs.blogsColumn}
+        <if test="lanBlogs.blogsColumn != 0">
+            AND blogs_column = #{lanBlogs.blogsColumn}
         </if>
         order by blogs_create_data DESC
-        limit #{currentPage},#{size}
+        limit #{start},#{size}
     </select>
 
     <select id="selectListByKey"
@@ -64,13 +65,12 @@
         select *
         from lan_blogs
         where id in (
-            select blog_id from lan_massage where user_id = #{userID} and msg_id_read = 0
+            select blog_id from lan_massage where user_id = #{userId} and msg_id_read = 0
         )
           and blogs_status = 2
     </select>
     <!--返回博客Id-->
     <insert id="insert"
-            parameterType="com.persistenthuang.lan108admin.pojo.LanBlogs"
             useGeneratedKeys="true"
             keyProperty="id">
         INSERT INTO lan_blogs (
@@ -87,60 +87,60 @@
         values(
         #{blogsAuthorId},
         <choose>
-            <when test="blogsCreateData==null">
+            <when test="lanBlogs.blogsCreateData==null">
                 current_time ,
             </when>
             <otherwise>
-                #{blogsCreateData},
+                #{lanBlogs.blogsCreateData},
             </otherwise>
         </choose>
-        #{blogsTitle},
+        #{lanBlogs.blogsTitle},
         <choose>
-            <when test="blogsSummary==null">
+            <when test="lanBlogs.blogsSummary==null">
                 " ",
             </when>
             <otherwise>
-                #{blogsSummary},
+                #{lanBlogs.blogsSummary},
             </otherwise>
         </choose>
         <choose>
-            <when test="blogsCover==null">
+            <when test="lanBlogs.blogsCover==null">
                 " ",
             </when>
             <otherwise>
-                #{blogsCover},
+                #{lanBlogs.blogsCover},
             </otherwise>
         </choose>
         <choose>
-            <when test="blogsHtml==null">
+            <when test="lanBlogs.blogsHtml==null">
                 " ",
             </when>
             <otherwise>
-                #{blogsHtml},
+                #{lanBlogs.blogsHtml},
             </otherwise>
         </choose>
         <choose>
-            <when test="blogsContent==null">
+            <when test="lanBlogs.blogsContent==null">
                 " ",
             </when>
             <otherwise>
-                #{blogsContent},
+                #{lanBlogs.blogsContent},
             </otherwise>
         </choose>
         <choose>
-            <when test="blogsColumn==null">
+            <when test="lanBlogs.blogsColumn==null">
                 "0",
             </when>
             <otherwise>
-                #{blogsColumn},
+                #{lanBlogs.blogsColumn},
             </otherwise>
         </choose>
         <choose>
-            <when test="blogsPassword==null">
+            <when test="lanBlogs.blogsPassword==null">
                 "0",
             </when>
             <otherwise>
-                #{blogsPassword},
+                #{lanBlogs.blogsPassword},
             </otherwise>
         </choose>
         0
@@ -148,27 +148,25 @@
     </insert>
 
     <!--修改-->
-    <update id="update"
-            parameterType="com.persistenthuang.lan108admin.pojo.LanBlogs">
+    <update id="update">
         update lan_blogs
         <set>
-            <if test="blogsAuthorId!=null">blogs_author_id=#{blogsAuthorId},</if>
-            <if test="blogsTitle!=null">blogs_title=#{blogsTitle},</if>
-            <if test="blogsSummary!=null">blogs_summary=#{blogsSummary} ,</if>
-            <if test="blogsCover!=null">blogs_cover=#{blogsCover},</if>
-            <if test="blogsHtml!=null">blogs_html=#{blogsHtml},</if>
-            <if test="blogsContent!=null">blogs_content=#{blogsContent},</if>
-            <if test="blogsColumn!=null">blogs_column=#{blogsColumn},</if>
-            <if test="blogsPassword!=null">blogs_password=#{blogsPassword},</if>
-            <if test="blogsStatus!=null">blogs_status=#{blogsStatus},</if>
+            <if test="lanBlogs.blogsAuthorId!=null">blogs_author_id=#{lanBlogs.blogsAuthorId},</if>
+            <if test="lanBlogs.blogsTitle!=null">blogs_title=#{lanBlogs.blogsTitle},</if>
+            <if test="lanBlogs.blogsSummary!=null">blogs_summary=#{lanBlogs.blogsSummary} ,</if>
+            <if test="lanBlogs.blogsCover!=null">blogs_cover=#{lanBlogs.blogsCover},</if>
+            <if test="lanBlogs.blogsHtml!=null">blogs_html=#{lanBlogs.blogsHtml},</if>
+            <if test="lanBlogs.blogsContent!=null">blogs_content=#{lanBlogs.blogsContent},</if>
+            <if test="lanBlogs.blogsColumn!=null">blogs_column=#{lanBlogs.blogsColumn},</if>
+            <if test="lanBlogs.blogsPassword!=null">blogs_password=#{lanBlogs.blogsPassword},</if>
+            <if test="lanBlogs.blogsStatus!=null">blogs_status=#{lanBlogs.blogsStatus},</if>
         </set>
-        where id=#{id}
+        where id=#{lanBlogs.id}
     </update>
     <!--删除-->
-    <delete id="delete"
-            parameterType="com.persistenthuang.lan108admin.pojo.LanBlogs">
+    <delete id="delete">
         delete
         from lan_blogs
-        where id = #{id}
+        where id = #{lanBlogs.id}
     </delete>
 </mapper>

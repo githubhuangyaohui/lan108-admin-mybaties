@@ -20,16 +20,14 @@
         <result property="userIsDelete" column="user_is_delete"/>
     </resultMap>
     <select id="selectOne"
-            parameterMap="com.persistenthuang.lan108admin.pojo.User"
             resultMap="userMap">
         SELECT * FROM user WHERE user_is_delete=0
-        <if test="id!=null">and id=#{id}</if>
-        <if test="userName!=null">and user_name=#{userName}</if>
-        <if test="userEmail!=null">and user_email=#{userEmail}</if>
+        <if test="user.id!=0">and id=#{user.id}</if>
+        <if test="user.userName!=null">and user_name=#{user.userName}</if>
+        <if test="user.userEmail!=null">and user_email=#{user.userEmail}</if>
     </select>
 
     <insert id="insert"
-            parameterType="com.persistenthuang.lan108admin.pojo.User"
             useGeneratedKeys="true"
             keyProperty="id">
         INSERT INTO user (
@@ -44,69 +42,68 @@
         user_is_delete)
         values(
         <choose>
-            <when test="userAuthorId==null">
+            <when test="user.userAuthorId==0">
                 "0",
             </when>
             <otherwise>
-                #{userAuthorId},
+                #{user.userAuthorId},
             </otherwise>
         </choose>
-        #{userName},
-        #{userPassword},
-        #{userSalt},
-        #{userEmail},
+        #{user.userName},
+        #{user.userPassword},
+        #{user.userSalt},
+        #{user.userEmail},
         <choose>
-            <when test="userLevel==null">
+            <when test="user.userLevel==null">
                 "0",
             </when>
             <otherwise>
-                #{userLevel},
+                #{user.userLevel},
             </otherwise>
         </choose>
         <choose>
-            <when test="userRole==null">
+            <when test="user.userRole==null">
                 "0",
             </when>
             <otherwise>
-                #{userRole},
+                #{user.userRole},
             </otherwise>
         </choose>
         <choose>
-            <when test="userRegisterTime==null">
+            <when test="user.userRegisterTime==null">
                 current_time ,
             </when>
             <otherwise>
-                #{userRegisterTime},
+                #{user.userRegisterTime},
             </otherwise>
         </choose>
         <choose>
-            <when test="userIsDelete==null">
+            <when test="user.userIsDelete==null">
                 "0",
             </when>
             <otherwise>
-                #{userIsDelete}
+                #{user.userIsDelete}
             </otherwise>
         </choose>
         )
     </insert>
 
-    <update id="update"
-            parameterType="com.persistenthuang.lan108admin.pojo.User">
-        <if test="id!=null">
+    <update id="update">
+        <if test="user.id!=0">
             update
             user
             <set>
-                <if test="userAuthorId!=null">user_author_id = #{userAuthorId},</if>
-                <if test="userName!=null">user_name = #{userName},</if>
-                <if test="userPassword!=null">user_password=#{userPassword},</if>
-                <if test="userSalt!=null">user_salt= #{userSalt},</if>
-                <if test="userLevel!=null">user_level =#{userLevel},</if>
-                <if test="userEmail!=null">user_email = #{userEmail},</if>
-                <if test="userRole!=null">user_role = #{userRole},</if>
-                <if test="userRegisterTime!=null">user_register_time =#{userRegisterTime},</if>
-                <if test="userIsDelete!=null">user_is_delete =#{userIsDelete}</if>
+                <if test="user.userAuthorId!=0">user_author_id = #{user.userAuthorId},</if>
+                <if test="user.userName!=null">user_name = #{user.userName},</if>
+                <if test="user.userPassword!=null">user_password=#{user.userPassword},</if>
+                <if test="user.userSalt!=null">user_salt= #{user.userSalt},</if>
+                <if test="user.userLevel!=null">user_level =#{user.userLevel},</if>
+                <if test="user.userEmail!=null">user_email = #{user.userEmail},</if>
+                <if test="user.userRole!=null">user_role = #{user.userRole},</if>
+                <if test="user.userRegisterTime!=null">user_register_time =#{user.userRegisterTime},</if>
+                <if test="user.userIsDelete!=null">user_is_delete =#{user.userIsDelete}</if>
             </set>
-            where id = #{id}
+            where id = #{user.id}
         </if>
     </update>
 </mapper>

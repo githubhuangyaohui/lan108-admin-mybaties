@@ -14,60 +14,55 @@
         <result property="adminIsDelete" column="admin_is_delete"/>
     </resultMap>
     <select id="selectList"
-            parameterType="com.persistenthuang.lan108admin.pojo.LanAdmin"
             resultMap="adminMap">
         select * from lan_admin
-        where admin_is_delete=#{adminIsDelete}
-        <if test="id != null">
-            AND id = #{id}
+        where admin_is_delete=#{admin.adminIsDelete}
+        <if test="admin.id != 0">
+            AND id = #{admin.id}
         </if>
-        <if test="userId != null">
-            AND user_id = #{userId}
+        <if test="admin.userId != 0">
+            AND user_id = #{admin.userId}
         </if>
-        <if test="roleId != null">
-            AND role_id = #{roleId}
+        <if test="admin.roleId != 0">
+            AND role_id = #{admin.roleId}
         </if>
     </select>
     <select id="selectOne"
-            parameterType="com.persistenthuang.lan108admin.pojo.LanAdmin"
             resultMap="adminMap">
         select * from lan_admin
-        where admin_is_delete=#{adminIsDelete}
-        <if test="id != null">
-            AND id = #{id}
+        where admin_is_delete=#{admin.adminIsDelete}
+        <if test="admin.id != 0">
+            AND id = #{admin.id}
         </if>
-        <if test="userId != null">
-            AND user_id = #{userId}
+        <if test="admin.userId != 0">
+            AND user_id = #{admin.userId}
         </if>
-        <if test="roleId != null">
-            AND role_id = #{roleId}
+        <if test="admin.roleId != 0">
+            AND role_id = #{admin.roleId}
         </if>
     </select>
     <!--增加-->
     <insert id="insert"
-            parameterType="com.persistenthuang.lan108admin.pojo.LanAdmin"
             useGeneratedKeys="true"
             keyProperty="id">
         insert into lan_admin(user_id, role_id, admin_creat_data, admin_is_delete)
-        values (#{user_id}, #{role_id}, current_date, 0)
+        values (#{admin.user_id}, #{admin.role_id}, current_date, 0)
     </insert>
     <!--修改-->
-    <update id="update"
-            parameterType="com.persistenthuang.lan108admin.pojo.LanAdmin">
+    <update id="update">
         update lan_admin
         <set>
-            <if test="userId!=null">user_id=#{userId},</if>
-            <if test="roleId!=null">role_id=#{roleId},</if>
-            <if test="adminCreatData!=null">admin_creat_data=current_date ,</if>
-            <if test="adminIsDelete!=null">admin_is_delete=#{adminIsDelete},</if>
+            <if test="admin.userId!=0">user_id=#{admin.userId},</if>
+            <if test="admin.roleId!=0">role_id=#{admin.roleId},</if>
+            <if test="admin.adminCreatData!=null">admin_creat_data=current_date ,</if>
+            <if test="admin.adminIsDelete!=null">admin_is_delete=#{admin.adminIsDelete},</if>
         </set>
-        where id=#{id}
+        where id=#{admin.id}
     </update>
     <!--删除-->
-    <delete id="delete"
-            parameterType="com.persistenthuang.lan108admin.pojo.LanAdmin">
+    <delete id="delete">
         delete
         from lan_admin
-        where id = #{id}
+        where id = #{admin.id}
     </delete>
 </mapper>

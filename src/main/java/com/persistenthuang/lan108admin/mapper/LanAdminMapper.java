@@ -2,6 +2,7 @@ package com.persistenthuang.lan108admin.mapper;
 
 import com.persistenthuang.lan108admin.pojo.LanAdmin;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -10,12 +11,12 @@ import java.util.List;
 @Repository
 public interface LanAdminMapper{
     //查
-    List<LanAdmin> selectList(LanAdmin admin);
-    LanAdmin selectOne(LanAdmin admin);
+    List<LanAdmin> selectList(@Param("admin") LanAdmin admin);
+    LanAdmin selectOne(@Param("admin")LanAdmin admin);
     //增
-    int insert(LanAdmin admin);
+    int insert(@Param("admin")LanAdmin admin);
     //删
-    int delete(LanAdmin admin);
+    int delete(@Param("admin")LanAdmin admin);
     //改
-    int update(LanAdmin admin);
+    int update(@Param("admin")LanAdmin admin);
 }

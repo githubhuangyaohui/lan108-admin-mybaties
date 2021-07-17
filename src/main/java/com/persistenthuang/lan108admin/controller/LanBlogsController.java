@@ -34,38 +34,46 @@ public class LanBlogsController {
 
     @Autowired
     LanMassageServiceImpl lanMassageService;
+
     // 首页推荐文章列表
     @CrossOrigin
-    @RequestMapping("/api/home/{currentPage}/blogs")
+    @RequestMapping("/api/user/homeBlogList")
     @ResponseBody
-    public String selectBlogIndex(@RequestBody JSONObject jsonObject) {
+        public String getHomeBlog(@RequestBody JSONObject jsonObject) {
+        log.info(jsonObject.toString());
         int currentPage = jsonObject.getInteger("currentPage");
         int size= jsonObject.getInteger("size");
-
-        List<LanBlogs> lanBlogs = lanBlogsService.selectBlogs(null,currentPage , size);
+        //设置文章查找条件
+        LanBlogs blogs=new LanBlogs();
+        blogs.setBlogsStatus(BlogStatus.SUCCESS);
+        List<LanBlogs> lanBlogs = lanBlogsService.selectBlogs(blogs,currentPage, size);
+        log.info(JSONObject.toJSONString(lanBlogs));
         return JSONObject.toJSONString(lanBlogs);
     }
 
     // 首页置顶文章文章列表
     @CrossOrigin
-    @RequestMapping("/api/home/blogsFirst")
+    @RequestMapping("/api/user/homeBlogFirstList")
     @ResponseBody
-    public String selectBlogIndexFirst(@RequestBody JSONObject jsonObject) {
+    public String getHomeBlogFirst(@RequestBody JSONObject jsonObject) {
+        log.info(jsonObject.toString());
         int currentPage = jsonObject.getInteger("currentPage");
         int size= jsonObject.getInteger("size");
         LanBlogs blogs=new LanBlogs();
         blogs.setBlogsStatus(BlogStatus.FIRST);
         List<LanBlogs> lanBlogs = lanBlogsService.selectBlogs(blogs,currentPage,size);
+        log.info(JSONObject.toJSONString(lanBlogs));
         return JSONObject.toJSONString(lanBlogs);
     }
 
     // 通过id获取文章详细信息
     @CrossOrigin
-    @RequestMapping("/api/view/{id}/blogMassage")
+    @RequestMapping("/api/user/blogMassage")
     @ResponseBody
-    public String getBlogMassage(@PathVariable(value = "id") int id) {
+    public String getBlogMassage(@RequestBody JSONObject jsonObject) {
+        Integer blogId = jsonObject.getInteger("blogId");
         log.info("获取文章具体信息");
-        LanBlogs blog = lanBlogsService.selectBlog(id);
+        LanBlogs blog = lanBlogsService.selectBlog(blogId);
         log.info("获取的文章信息：" + blog.toString());
         return JSONObject.toJSONString(blog);
     }
@@ -90,7 +98,7 @@ public class LanBlogsController {
 
     // 获取专栏文章列表
     @CrossOrigin
-    @RequestMapping("/api/blogs/rolesBlogs/{rolesID}")
+    @RequestMapping("/api/user/rolesBlog")
     @ResponseBody
     public String getRoleBlogs(@RequestBody JSONObject jsonObject) {
         int rolesId = jsonObject.getInteger("rolesId");
@@ -108,7 +116,7 @@ public class LanBlogsController {
 
     // 获取个人中心文章列表
     @CrossOrigin
-    @RequestMapping("/api/blogs/adminBlogs/{userID}")
+    @RequestMapping("/api/user/authorBlogList/Uid")
     @ResponseBody
     public String getAdminBlogs(@RequestBody JSONObject jsonObject) {
         int userId = jsonObject.getInteger("userId");
@@ -127,7 +135,7 @@ public class LanBlogsController {
 
     // 获取作者文章列表
     @CrossOrigin
-    @RequestMapping("/api/view/getAuthorList")
+    @RequestMapping("/api/user/authorBlogList/Aid")
     @ResponseBody
     public String getAuthorBlogs(@RequestBody JSONObject jsonObject) {
         int authorId= jsonObject.getInteger("authorId");
@@ -149,10 +157,10 @@ public class LanBlogsController {
      */
 
     @CrossOrigin
-    @RequestMapping("/api/blogTemp/getTempBlog")
+    @RequestMapping("/api/editor/blogTempList/Aid")
     @ResponseBody
     public String CreateList(@RequestBody JSONObject jsonObject) {
-        int userAuthorId = jsonObject.getInteger("userAuthorId");
+        int userAuthorId = jsonObject.getInteger("authorId");
         int currentPage = jsonObject.getInteger("currentPage");
         int size= jsonObject.getInteger("size");
         //构建参数
@@ -169,12 +177,10 @@ public class LanBlogsController {
      * 返回编辑文字内容
      */
     @CrossOrigin
-    @RequestMapping("/api/blogTemp/editorTempBlog")
+    @RequestMapping("/api/editor/blogTempCard")
     @ResponseBody
     public String editorTempBlog(@RequestBody JSONObject jsonObject) {
-        int id = jsonObject.getInteger("id");
-        int currentPage = jsonObject.getInteger("currentPage");
-        int size= jsonObject.getInteger("size");
+        int id = jsonObject.getInteger("blogTempId");
         //构建参数
         LanBlogs blogs=new LanBlogs();
         blogs.setId(id);
@@ -189,7 +195,7 @@ public class LanBlogsController {
      * 根据作者id和文章id删除文章
      */
     @CrossOrigin
-    @RequestMapping("/api/blogTemp/delete")
+    @RequestMapping("/api/editor/deleteBlogTemp")
     @ResponseBody
     public String blogTempDelete(@RequestBody JSONObject jsonObject) {
         //获取前端信息
@@ -214,10 +220,10 @@ public class LanBlogsController {
      * 根据作者id返回作者已投稿
      */
     @CrossOrigin
-    @RequestMapping("/api/blogTemp/getTempBlog/Submit")
+    @RequestMapping("/api/editor/blogSubmitList/Aid ")
     @ResponseBody
     public String CreateListSubmit(@RequestBody JSONObject jsonObject) {
-        int userAuthorId = jsonObject.getInteger("userAuthorId");
+        int userAuthorId = jsonObject.getInteger("authorId");
         int currentPage = jsonObject.getInteger("currentPage");
         int size= jsonObject.getInteger("size");
         //构建参数
@@ -233,7 +239,7 @@ public class LanBlogsController {
      * 根据作者id和文章id撤销投稿
      */
     @CrossOrigin
-    @RequestMapping("/api/blogTemp/unSubmit")
+    @RequestMapping("/api/editor/unSubmit")
     @ResponseBody
     public String blogTempUnSubmit(@RequestBody JSONObject jsonObject) {
         //获取前端信息
@@ -259,7 +265,7 @@ public class LanBlogsController {
      * 投稿文章
      */
     @CrossOrigin
-    @RequestMapping("/api/creat/publishedArticle")
+    @RequestMapping("/api/editor/submit")
     @ResponseBody
     public String publishedArticle(@RequestBody JSONObject jsonObject) {
         int blogTempId = jsonObject.getInteger("blogId");
@@ -277,7 +283,7 @@ public class LanBlogsController {
      * 保存草稿
      */
     @CrossOrigin
-    @RequestMapping("/api/creat/saveArticle")
+    @RequestMapping("/api/editor/saveArticle")
     @ResponseBody
     public String SaveBlog(@RequestBody JSONObject jsonObject) {
         log.info("************保存博客************");
@@ -286,7 +292,7 @@ public class LanBlogsController {
         int blogsAuthorId = jsonObject.getInteger("blogsAuthorId");
         String blogsTitle = jsonObject.getString("blogsTitle");
         String blogsContent = jsonObject.getString("blogsContent");
-        String blogsHtml = jsonObject.getString("blogsHtml");
+            String blogsHtml = jsonObject.getString("blogsHtml");
         String blogsSummary = jsonObject.getString("blogsSummary");
         String blogsCover = jsonObject.getString("blogsCover");
         int blogsColumn = jsonObject.getInteger("blogsColumn");
@@ -314,10 +320,10 @@ public class LanBlogsController {
      * 管理员返回提交的博客列表
      */
     @CrossOrigin
-    @RequestMapping("/api/admin/submitBlogs")
+    @RequestMapping("/api/admin/submitBlog")
     @ResponseBody
     public String getsubmitBlogs(@RequestBody JSONObject jsonObject) {
-        int userID = jsonObject.getInteger("userID");
+        int userID = jsonObject.getInteger("userId");
         int currentPage = jsonObject.getInteger("currentPage");
         int size= jsonObject.getInteger("size");
 
@@ -336,7 +342,7 @@ public class LanBlogsController {
      * 管理员返回通过的专栏列表
      */
     @CrossOrigin
-    @RequestMapping("/api/admin/passBlogs")
+    @RequestMapping("/api/admin/passBlog")
     @ResponseBody
     public String getPassedBlogList(@RequestBody JSONObject jsonObject) {
         int userId = jsonObject.getInteger("userId");
@@ -357,7 +363,7 @@ public class LanBlogsController {
      * 管理员返回不通过的列表
      */
     @CrossOrigin
-    @RequestMapping("/api/admin/unPassBlogs")
+    @RequestMapping("/api/admin/unPassBlog")
     @ResponseBody
     public String getUnPassedBlogList(@RequestBody JSONObject jsonObject) {
         int userId = jsonObject.getInteger("userId");
@@ -378,7 +384,7 @@ public class LanBlogsController {
      * 预览blogsTemp信息
      */
     @CrossOrigin
-    @RequestMapping("/api/view/blogTemp")
+    @RequestMapping("/api/admin/blogTempCard")
     @ResponseBody
     public String getViewBlogsMessage(@RequestBody JSONObject jsonObject) {
         int id = jsonObject.getInteger("id");
@@ -391,10 +397,10 @@ public class LanBlogsController {
      * 管理员通过博客，并发布到专栏
      */
     @CrossOrigin
-    @RequestMapping("/api/admin/publicBlogs")
+    @RequestMapping("/api/admin/publicBlog")
     @ResponseBody
     public String publicBlogs(@RequestBody JSONObject jsonObject) {
-        int userId = jsonObject.getInteger("userID");
+        int userId = jsonObject.getInteger("userId");
         int blogsId = jsonObject.getInteger("blogTempId");
         int roleID = lanAdminService.getRoleIdByUserId(userId);
         if (roleID != 0) {
@@ -424,10 +430,10 @@ public class LanBlogsController {
      * 提交不通过请求
      */
     @CrossOrigin
-    @RequestMapping("/api/admin/unpassBlogs")
+    @RequestMapping("/api/admin/unPublicBlog")
     @ResponseBody
     public String UnpassBlogs(@RequestBody JSONObject jsonObject) {
-        int userId = jsonObject.getInteger("userID");
+        int userId = jsonObject.getInteger("userId");
         int blogsTempId = jsonObject.getInteger("blogTempId");
         int roleID = lanAdminService.getRoleIdByUserId(userId);
         if (roleID != 0) {
