@@ -21,7 +21,9 @@ public class LanRolesServiceImpl implements LanRolesService {
     // 获取所有专栏
     @Override
     public List<LanRoles> getAllList() {
-        return lanRolesMapper.selectList(new LanRoles());
+        LanRoles lanRoles = new LanRoles();
+        lanRoles.setRolesState(1);
+        return lanRolesMapper.selectList(lanRoles);
     }
 
     @Override

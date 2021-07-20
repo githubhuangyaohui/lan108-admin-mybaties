@@ -34,7 +34,7 @@
         select * from lan_roles where true
         <if test="roles.id!=0">and id=#{roles.id}</if>
         <if test="roles.rolesLanName!=null">and roles_lan_name=#{roles.rolesLanName}</if>
-        <if test="roles.rolesState!=0">and roles_state=#{roles.rolesState}</if>
+        <if test="roles.rolesState!=null">and roles_state=#{roles.rolesState}</if>
         <if test="roles.rolesStarname!=null">and roles_starname=#{roles.rolesStarname}</if>
         <if test="roles.rolesNickname!=null">and roles_nickname=#{roles.rolesNickname}</if>
         <if test="roles.rolesTruename!=null">and roles_truename=#{roles.rolesTruename}</if>

@@ -3,6 +3,7 @@ package com.persistenthuang.lan108admin.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.persistenthuang.lan108admin.Result.ResuleMessage;
 import com.persistenthuang.lan108admin.Result.Result;
+import com.persistenthuang.lan108admin.pojo.LanMassage;
 import com.persistenthuang.lan108admin.service.LanBlogsServiceImpl;
 import com.persistenthuang.lan108admin.service.LanMassageServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 /**
  * 关注信息控制类
@@ -25,6 +28,11 @@ public class LanMassageController {
     @Autowired
     LanMassageServiceImpl lanMassageService;
 
+    /**
+     * 获取关注信息列表
+     * @param jsonObject
+     * @return
+     */
     @CrossOrigin
     @RequestMapping("/api/user/focusList")
     @ResponseBody
@@ -32,8 +40,9 @@ public class LanMassageController {
         //获得用户ID
         int userID = jsonObject.getInteger("userId");
         //获取信息列表
-        // List<LanMassage> massages = lanMassageService.getMassageListByUserId(userID);
+//        List<LanMassage> massages = lanMassageService.getMassageListByUserId(userID);
         //返回博客列表
+        log.info(JSONObject.toJSONString(lanBlogsService.selectFocusMassage(userID)));
         return JSONObject.toJSONString(lanBlogsService.selectFocusMassage(userID));
     }
 

@@ -41,12 +41,12 @@
         </if>
     </select>
 
-    <insert id="insertByUserRoleId"
+    <insert id="insert"
             useGeneratedKeys="true">
         insert into lan_focus(user_id, role_id)
         values (#{focus.userId}, #{focus.roleId})
     </insert>
-    <delete id="deleteByUserRoleId">
+    <delete id="delete">
         delete
         from lan_focus
         where user_id = #{focus.userId}

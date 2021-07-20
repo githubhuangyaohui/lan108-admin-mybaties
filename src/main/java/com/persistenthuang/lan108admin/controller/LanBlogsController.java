@@ -101,7 +101,7 @@ public class LanBlogsController {
     @RequestMapping("/api/user/rolesBlog")
     @ResponseBody
     public String getRoleBlogs(@RequestBody JSONObject jsonObject) {
-        int rolesId = jsonObject.getInteger("rolesId");
+        int rolesId = jsonObject.getInteger("roleId");
         int currentPage = jsonObject.getInteger("currentPage");
         int size= jsonObject.getInteger("size");
         //构建参数
