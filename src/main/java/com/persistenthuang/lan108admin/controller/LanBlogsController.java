@@ -104,13 +104,14 @@ public class LanBlogsController {
         int rolesId = jsonObject.getInteger("roleId");
         int currentPage = jsonObject.getInteger("currentPage");
         int size= jsonObject.getInteger("size");
+        log.info("/api/user/rolesBlog+"+rolesId+"+"+currentPage+"+"+size);
         //构建参数
         LanBlogs blogs=new LanBlogs();
         blogs.setBlogsColumn(rolesId);
         blogs.setBlogsStatus(BlogStatus.SUCCESS);
         //参数
         List<LanBlogs> roleBlogs = this.lanBlogsService.selectBlogs(blogs,currentPage,size);
-        log.info("获取专栏文章列表:" + roleBlogs.toString());
+//        log.info("获取专栏文章列表:" + roleBlogs.toString());
         return JSONObject.toJSONString(roleBlogs);
     }
 
@@ -161,17 +162,35 @@ public class LanBlogsController {
     @ResponseBody
     public String CreateList(@RequestBody JSONObject jsonObject) {
         int userAuthorId = jsonObject.getInteger("authorId");
-        int currentPage = jsonObject.getInteger("currentPage");
-        int size= jsonObject.getInteger("size");
         //构建参数
         LanBlogs blogs=new LanBlogs();
         blogs.setBlogsAuthorId(userAuthorId);
         blogs.setBlogsStatus(BlogStatus.TEMP);
         //查找
-        List<LanBlogs> lanBlogsTemps = lanBlogsService.selectBlogs(blogs,currentPage,size);
-        log.info("创建博客草稿列表" + lanBlogsTemps.toString());
+        List<LanBlogs> lanBlogsTemps = lanBlogsService.selectBlogs(blogs,1,1000);
+//        log.info("创建博客草稿列表" + lanBlogsTemps.toString());
         return JSONObject.toJSONString(lanBlogsTemps);
     }
+
+
+    /**
+     * 根据作者id返回作者已投稿
+     */
+    @CrossOrigin
+    @RequestMapping("/api/editor/blogSubmitList/Aid")
+    @ResponseBody
+    public String CreateListSubmit(@RequestBody JSONObject jsonObject) {
+        int userAuthorId = jsonObject.getInteger("authorId");
+        //构建参数
+        LanBlogs blogs=new LanBlogs();
+        blogs.setBlogsAuthorId(userAuthorId);
+        blogs.setBlogsStatus(BlogStatus.REVIEW);
+        //查找
+        List<LanBlogs> lanBlogs = lanBlogsService.selectBlogs(blogs, 1, 1000);
+        log.info(JSONObject.toJSONString(lanBlogs));
+        return JSONObject.toJSONString(lanBlogs);
+    }
+
 
     /**
      * 返回编辑文字内容
@@ -216,24 +235,7 @@ public class LanBlogsController {
         }
     }
 
-    /**
-     * 根据作者id返回作者已投稿
-     */
-    @CrossOrigin
-    @RequestMapping("/api/editor/blogSubmitList/Aid ")
-    @ResponseBody
-    public String CreateListSubmit(@RequestBody JSONObject jsonObject) {
-        int userAuthorId = jsonObject.getInteger("authorId");
-        int currentPage = jsonObject.getInteger("currentPage");
-        int size= jsonObject.getInteger("size");
-        //构建参数
-        LanBlogs blogs=new LanBlogs();
-        blogs.setBlogsAuthorId(userAuthorId);
-        blogs.setBlogsStatus(BlogStatus.REVIEW);
-        //查找
-        List<LanBlogs> lanBlogs = lanBlogsService.selectBlogs(blogs, currentPage, size);
-        return JSONObject.toJSONString(lanBlogs);
-    }
+
 
     /**
      * 根据作者id和文章id撤销投稿

@@ -15,7 +15,7 @@ public interface LanBlogsMapper{
     //关键词查询
     List<LanBlogs> selectListByKey(@Param("keywords")String keywords);
     //消息连接查询
-    List<LanBlogs> selectListByMessage(@Param("userId")int userID);
+    List<LanBlogs> selectListByMessage(@Param("userId")int userId);
     int insert(@Param("lanBlogs")LanBlogs lanBlogs); //返回博客Id
     int update(@Param("lanBlogs")LanBlogs lanBlogs);
     int delete(@Param("lanBlogs")LanBlogs lanBlogs);
